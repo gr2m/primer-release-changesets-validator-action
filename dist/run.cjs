@@ -3076,7 +3076,15 @@ async function main(workspacePath2, event2, core2, $2) {
     return;
   }
   const primerPackages = getPrimerPackages(core2, pkg.name, workspacePath2);
-  const { stdout: changedFilesLines } = await $2`git diff --name-only origin/${event2.pull_request.base.ref}`;
+  let gitResult;
+  try {
+    gitResult = await $2`git diff --name-only origin/${event2.pull_request.base.ref}`;
+  } catch {
+    core2.setFailed(
+      `Could not find origin/${event2.pull_request.base.ref}. Did you run actions/checkout with fetch-depth: 0?`
+    );
+    return;
+  }
   const changedChangesetFiles = changedFilesLines.split("\n").filter((line) => line.startsWith(".changeset/"));
   if (changedChangesetFiles.length === 0) {
     core2.setFailed(
