@@ -4255,8 +4255,6 @@ function create$(options) {
 var $ = create$();
 
 // run.js
-var workspacePath = String(process.env.GITHUB_WORKSPACE);
-var event = JSON.parse(
-  (0, import_node_fs3.readFileSync)(String(process.env.GITHUB_EVENT), "utf8")
-);
+var workspacePath = String(import_core2.default.getInput("workspace-path"));
+var event = JSON.parse((0, import_node_fs3.readFileSync)(import_core2.default.getInput("event-path"), "utf8"));
 main(workspacePath, event, import_core2.default, $);
