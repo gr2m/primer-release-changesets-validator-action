@@ -63,6 +63,8 @@ export async function main(workspacePath, event, core, $) {
     return;
   }
 
+  const changedFilesLines = gitResult.stdout;
+
   // find paths to changeset files
   const changedChangesetFiles = changedFilesLines
     .split("\n")
