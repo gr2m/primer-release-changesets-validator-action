@@ -4,8 +4,8 @@ const { readFile } = require("node:fs/promises");
 const { join } = require("node:path");
 
 const REGEX_CHANGED_COMPONENTS = /<\!--\s*Changed components:(.*)\s*-->\s*$/;
-
 const SUPPORTED_PRIMER_PACKAGES = ["@primer/react", "@primer/view-components"];
+const SKIP_CHANGESETS_LABELS = ["skip changeset", "skip changelog"];
 
 /**
  * @param {string} workspacePath
@@ -14,8 +14,8 @@ const SUPPORTED_PRIMER_PACKAGES = ["@primer/react", "@primer/view-components"];
  * @param {import("execa")["$"]} $
  */
 export async function main(workspacePath, event, core, $) {
-  const hasSkipChangesetsLabel = event.pull_request.labels.some(
-    (label) => label.name === "skip changeset"
+  const hasSkipChangesetsLabel = event.pull_request.labels.some((label) =>
+    SKIP_CHANGESETS_LABELS.includes(label.name)
   );
 
   if (hasSkipChangesetsLabel) {
