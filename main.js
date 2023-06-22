@@ -94,7 +94,11 @@ export async function main(workspacePath, event, core, $) {
         "\n" +
         `Known ${pkg.name} components: ${primerPackages.join(", ")}`
     );
+
+    return;
   }
+
+  core.info("All changesets are valid");
 }
 
 /**
