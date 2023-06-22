@@ -1,0 +1,8 @@
+name: Primer release changesets validator
+description: "Validates `changesets/*.md` files in `primer/*` pull requests"
+branding:
+  icon: "check-circle"
+  color: gray-dark
+runs:
+  using: "node16"
+  main: "dist/run.cjs"
