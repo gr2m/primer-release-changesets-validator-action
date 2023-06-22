@@ -51,8 +51,17 @@ export async function main(workspacePath, event, core, $) {
   // fetch
 
   // get list of files changed in pull request
-  const { stdout: changedFilesLines } =
-    await $`git diff --name-only origin/${event.pull_request.base.ref}`;
+  let gitResult;
+
+  try {
+    gitResult =
+      await $`git diff --name-only origin/${event.pull_request.base.ref}`;
+  } catch {
+    core.setFailed(
+      `Could not find origin/${event.pull_request.base.ref}. Did you run actions/checkout with fetch-depth: 0?`
+    );
+    return;
+  }
 
   // find paths to changeset files
   const changedChangesetFiles = changedFilesLines
