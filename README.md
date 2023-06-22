@@ -9,7 +9,8 @@ name: Primer Release
 "on": pull_request
 
 jobs:
-  filter:
+  validate-changesets:
+    name: Validate Changesets
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

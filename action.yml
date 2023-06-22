@@ -3,6 +3,15 @@ description: "Validates `changesets/*.md` files in `primer/*` pull requests"
 branding:
   icon: "check-circle"
   color: gray-dark
+inputs:
+  workspace-path:
+    description: "Path to the workspace root. Defaults to `github.workspace`"
+    required: true
+    default: ${{ github.workspace }}
+  event-path:
+    description: "Path to the event JSON file. Defaults to `github.event_path`"
+    required: true
+    default: ${{ github.event_path }}
 runs:
   using: "node16"
   main: "dist/run.cjs"
