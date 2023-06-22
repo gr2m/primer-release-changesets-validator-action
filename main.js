@@ -52,7 +52,7 @@ export async function main(workspacePath, event, core, $) {
 
   // get list of files changed in pull request
   const { stdout: changedFilesLines } =
-    await $`git diff --name-only ${event.pull_request.head.sha} ${event.pull_request.base.sha}`;
+    await $`git diff --name-only ${event.pull_request.base.sha}`;
 
   // find paths to changeset files
   const changedChangesetFiles = changedFilesLines
