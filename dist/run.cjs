@@ -3067,7 +3067,7 @@ async function main(workspacePath2, event2, core2, $2) {
     return;
   }
   const pkg = JSON.parse(packageContents);
-  if (SUPPORTED_PRIMER_PACKAGES.includes(pkg.name)) {
+  if (!SUPPORTED_PRIMER_PACKAGES.includes(pkg.name)) {
     core2.setFailed(
       `This CI is only supported in the following packages: ${SUPPORTED_PRIMER_PACKAGES.join(
         ", "
