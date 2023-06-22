@@ -37,7 +37,7 @@ export async function main(workspacePath, event, core, $) {
   /** @type {{name: string}} */
   const pkg = JSON.parse(packageContents);
 
-  if (SUPPORTED_PRIMER_PACKAGES.includes(pkg.name)) {
+  if (!SUPPORTED_PRIMER_PACKAGES.includes(pkg.name)) {
     core.setFailed(
       `This CI is only supported in the following packages: ${SUPPORTED_PRIMER_PACKAGES.join(
         ", "
