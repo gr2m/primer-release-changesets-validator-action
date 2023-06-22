@@ -5,12 +5,13 @@
 ## Usage
 
 ```yaml
-name: Primer Release
-"on": pull_request
+name: Changesets
+"on":
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
 
 jobs:
-  validate-changesets:
-    name: Validate Changesets
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
