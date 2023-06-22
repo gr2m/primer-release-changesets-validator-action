@@ -4256,5 +4256,9 @@ var $ = create$();
 
 // run.js
 var workspacePath = String(import_core2.default.getInput("workspace-path"));
-var event = JSON.parse((0, import_node_fs3.readFileSync)(import_core2.default.getInput("event-path"), "utf8"));
+var eventPath = String(import_core2.default.getInput("event-path"));
+import_core2.default.debug(`workspacePath: ${workspacePath}`);
+import_core2.default.debug(`event_path: ${eventPath}`);
+var event = JSON.parse((0, import_node_fs3.readFileSync)(eventPath, "utf8"));
+import_core2.default.debug(`event: ${JSON.stringify(event, null, 2)}`);
 main(workspacePath, event, import_core2.default, $);
