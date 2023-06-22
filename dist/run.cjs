@@ -3076,7 +3076,7 @@ async function main(workspacePath2, event2, core2, $2) {
     return;
   }
   const primerPackages = getPrimerPackages(core2, pkg.name, workspacePath2);
-  const { stdout: changedFilesLines } = await $2`git diff --name-only ${event2.pull_request.head.sha} ${event2.pull_request.base.sha}`;
+  const { stdout: changedFilesLines } = await $2`git diff --name-only ${event2.pull_request.base.sha}`;
   const changedChangesetFiles = changedFilesLines.split("\n").filter((line) => line.startsWith(".changeset/"));
   if (changedChangesetFiles.length === 0) {
     core2.setFailed(
