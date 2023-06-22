@@ -14,12 +14,14 @@ const SKIP_CHANGESETS_LABELS = ["skip changeset", "skip changelog"];
  * @param {import("execa")["$"]} $
  */
 export async function main(workspacePath, event, core, $) {
-  const hasSkipChangesetsLabel = event.pull_request.labels.some((label) =>
+  const skipChangesetsLabel = event.pull_request.labels.find((label) =>
     SKIP_CHANGESETS_LABELS.includes(label.name)
   );
 
-  if (hasSkipChangesetsLabel) {
-    core.info("Changesets were skipped because of the 'skip changeset' label");
+  if (skipChangesetsLabel) {
+    core.info(
+      "Changesets were skipped because of the '${skipChangesetsLabel.name}' label"
+    );
     return;
   }
 
