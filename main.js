@@ -48,9 +48,11 @@ export async function main(workspacePath, event, core, $) {
 
   const primerPackages = getPrimerPackages(core, pkg.name, workspacePath);
 
+  // fetch
+
   // get list of files changed in pull request
   const { stdout: changedFilesLines } =
-    await $`git diff --name-only ${event.repository.default_branch}`;
+    await $`git diff --name-only ${event.head.sha} ${event.base.sha}`;
 
   // find paths to changeset files
   const changedChangesetFiles = changedFilesLines
