@@ -3085,6 +3085,7 @@ async function main(workspacePath2, event2, core2, $2) {
     );
     return;
   }
+  const changedFilesLines = gitResult.stdout;
   const changedChangesetFiles = changedFilesLines.split("\n").filter((line) => line.startsWith(".changeset/"));
   if (changedChangesetFiles.length === 0) {
     core2.setFailed(
