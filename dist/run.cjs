@@ -3069,9 +3069,9 @@ async function main(workspacePath2, event2, core2, $2) {
   const pkg = JSON.parse(packageContents);
   if (SUPPORTED_PRIMER_PACKAGES.includes(pkg.name)) {
     core2.setFailed(
-      `This CLI is only supported in the following packages: ${SUPPORTED_PRIMER_PACKAGES.join(
+      `This CI is only supported in the following packages: ${SUPPORTED_PRIMER_PACKAGES.join(
         ", "
-      )}`
+      )}. Current package is ${pkg.name}`
     );
     return;
   }
