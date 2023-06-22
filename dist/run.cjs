@@ -3103,7 +3103,9 @@ async function main(workspacePath2, event2, core2, $2) {
       errors.join("\n") + `
 Known ${pkg.name} components: ${primerPackages.join(", ")}`
     );
+    return;
   }
+  core2.info("All changesets are valid");
 }
 function getPrimerPackages(core2, pkgName, workspacePath2) {
   if (pkgName === "@primer/react") {
