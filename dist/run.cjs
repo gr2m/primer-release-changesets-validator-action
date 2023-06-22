@@ -3048,9 +3048,10 @@ var { readFile } = require("node:fs/promises");
 var { join } = require("node:path");
 var REGEX_CHANGED_COMPONENTS = /<\!--\s*Changed components:(.*)\s*-->\s*$/;
 var SUPPORTED_PRIMER_PACKAGES = ["@primer/react", "@primer/view-components"];
+var SKIP_CHANGESETS_LABELS = ["skip changeset", "skip changelog"];
 async function main(workspacePath2, event2, core2, $2) {
   const hasSkipChangesetsLabel = event2.pull_request.labels.some(
-    (label) => label.name === "skip changeset"
+    (label) => SKIP_CHANGESETS_LABELS.includes(label.name)
   );
   if (hasSkipChangesetsLabel) {
     core2.info("Changesets were skipped because of the 'skip changeset' label");
