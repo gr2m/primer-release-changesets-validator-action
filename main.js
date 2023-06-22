@@ -39,9 +39,9 @@ export async function main(workspacePath, event, core, $) {
 
   if (SUPPORTED_PRIMER_PACKAGES.includes(pkg.name)) {
     core.setFailed(
-      `This CLI is only supported in the following packages: ${SUPPORTED_PRIMER_PACKAGES.join(
+      `This CI is only supported in the following packages: ${SUPPORTED_PRIMER_PACKAGES.join(
         ", "
-      )}`
+      )}. Current package is ${pkg.name}`
     );
     return;
   }
