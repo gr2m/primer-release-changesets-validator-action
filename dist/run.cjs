@@ -3055,7 +3055,7 @@ async function main(workspacePath2, event2, core2, $2) {
   );
   if (skipChangesetsLabel) {
     core2.info(
-      "Changesets were skipped because of the '${skipChangesetsLabel.name}' label"
+      `Changesets were skipped because of the '${skipChangesetsLabel.name}' label`
     );
     return;
   }
