@@ -20,7 +20,7 @@ export async function main(workspacePath, event, core, $) {
 
   if (skipChangesetsLabel) {
     core.info(
-      "Changesets were skipped because of the '${skipChangesetsLabel.name}' label"
+      `Changesets were skipped because of the '${skipChangesetsLabel.name}' label`
     );
     return;
   }
