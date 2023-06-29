@@ -3053,6 +3053,10 @@ async function main(workspacePath2, event2, core2, $2) {
   const skipChangesetsLabel = event2.pull_request.labels.find(
     (label) => SKIP_CHANGESETS_LABELS.includes(label.name)
   );
+  if (event2.pull_request.head.ref.startsWith("changeset-release/")) {
+    core2.info(`Changesets were skipped because this is a release pull request`);
+    return;
+  }
   if (skipChangesetsLabel) {
     core2.info(
       `Changesets were skipped because of the '${skipChangesetsLabel.name}' label`
