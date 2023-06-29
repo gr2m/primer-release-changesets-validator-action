@@ -18,6 +18,13 @@ export async function main(workspacePath, event, core, $) {
     SKIP_CHANGESETS_LABELS.includes(label.name)
   );
 
+  // if pull request is a release pull request, skip changesets check
+  if (event.pull_request.head.ref.startsWith("changeset-release/")) {
+    core.info(`Changesets were skipped because this is a release pull request`);
+    return;
+  }
+
+  // if skip changesets label is present, skip changesets check
   if (skipChangesetsLabel) {
     core.info(
       `Changesets were skipped because of the '${skipChangesetsLabel.name}' label`
