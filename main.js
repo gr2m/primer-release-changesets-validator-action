@@ -88,23 +88,32 @@ export async function main(workspacePath, event, core, $) {
 
   const errors = [];
   for (const line of changedChangesetFiles) {
-    const content = await readFile(line, "utf8");
+    try {
+      const content = await readFile(line, "utf8");
 
-    if (!REGEX_CHANGED_COMPONENTS.test(content)) {
-      errors.push(`Could not find changed components in ${line}`);
-      continue;
-    }
-
-    // @ts-expect-error - can't be null, we check above
-    const changedComponents = content
-      .match(REGEX_CHANGED_COMPONENTS)[1]
-      .split(",")
-      .map((s) => s.trim());
-
-    for (const changedComponent of changedComponents) {
-      if (!primerPackages.includes(changedComponent)) {
-        errors.push(`Unknown component "${changedComponent}".`);
+      if (!REGEX_CHANGED_COMPONENTS.test(content)) {
+        errors.push(`Could not find changed components in ${line}`);
+        continue;
       }
+
+      // @ts-expect-error - can't be null, we check above
+      const changedComponents = content
+        .match(REGEX_CHANGED_COMPONENTS)[1]
+        .split(",")
+        .map((s) => s.trim());
+
+      for (const changedComponent of changedComponents) {
+        if (!primerPackages.includes(changedComponent)) {
+          errors.push(`Unknown component "${changedComponent}".`);
+        }
+      }
+    } catch (error) {
+      if (error.code === "ENOENT") {
+        core.info(`${line} has been deleted`);
+        continue;
+      }
+
+      core.warning(`Could not read ${line}: ${error.message}`);
     }
   }
 
