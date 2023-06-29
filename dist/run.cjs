@@ -3102,16 +3102,24 @@ async function main(workspacePath2, event2, core2, $2) {
   }
   const errors = [];
   for (const line of changedChangesetFiles) {
-    const content = await readFile(line, "utf8");
-    if (!REGEX_CHANGED_COMPONENTS.test(content)) {
-      errors.push(`Could not find changed components in ${line}`);
-      continue;
-    }
-    const changedComponents = content.match(REGEX_CHANGED_COMPONENTS)[1].split(",").map((s) => s.trim());
-    for (const changedComponent of changedComponents) {
-      if (!primerPackages.includes(changedComponent)) {
-        errors.push(`Unknown component "${changedComponent}".`);
+    try {
+      const content = await readFile(line, "utf8");
+      if (!REGEX_CHANGED_COMPONENTS.test(content)) {
+        errors.push(`Could not find changed components in ${line}`);
+        continue;
       }
+      const changedComponents = content.match(REGEX_CHANGED_COMPONENTS)[1].split(",").map((s) => s.trim());
+      for (const changedComponent of changedComponents) {
+        if (!primerPackages.includes(changedComponent)) {
+          errors.push(`Unknown component "${changedComponent}".`);
+        }
+      }
+    } catch (error) {
+      if (error.code === "ENOENT") {
+        core2.info(`${line} has been deleted`);
+        continue;
+      }
+      core2.warning(`Could not read ${line}: ${error.message}`);
     }
   }
   if (errors.length > 0) {
