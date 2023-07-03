@@ -120,8 +120,20 @@ export async function main(workspacePath, event, core, $) {
   if (errors.length > 0) {
     core.setFailed(
       errors.join("\n") +
-        "\n" +
-        `Known ${pkg.name} components: ${primerPackages.join(", ")}`
+        `
+
+Known ${pkg.name} components: ${primerPackages.join(", ")}
+
+Example:
+
+---
+"${pkg.name}": patch
+---
+
+Fixed this and that
+
+<!-- Changed components: ${primerPackages[0]} -→
+`
     );
 
     return;
