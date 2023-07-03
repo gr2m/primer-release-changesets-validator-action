@@ -1,7 +1,7 @@
 // @ts-check
 
-const { readFile } = require("node:fs/promises");
-const { join } = require("node:path");
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 const REGEX_CHANGED_COMPONENTS = /<\!--\s*Changed components:(.*)\s*-->\s*$/;
 const SUPPORTED_PRIMER_PACKAGES = ["@primer/react", "@primer/view-components"];
