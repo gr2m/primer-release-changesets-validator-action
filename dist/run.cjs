@@ -3044,8 +3044,8 @@ var import_node_fs3 = require("node:fs");
 var import_core2 = __toESM(require_core(), 1);
 
 // main.js
-var { readFile } = require("node:fs/promises");
-var { join } = require("node:path");
+var import_promises = require("node:fs/promises");
+var import_node_path = require("node:path");
 var REGEX_CHANGED_COMPONENTS = /<\!--\s*Changed components:(.*)\s*-->\s*$/;
 var SUPPORTED_PRIMER_PACKAGES = ["@primer/react", "@primer/view-components"];
 var SKIP_CHANGESETS_LABELS = ["skip changeset", "skip changelog"];
@@ -3063,10 +3063,10 @@ async function main(workspacePath2, event2, core2, $2) {
     );
     return;
   }
-  const packagePath = join(workspacePath2, "package.json");
+  const packagePath = (0, import_node_path.join)(workspacePath2, "package.json");
   let packageContents;
   try {
-    packageContents = await readFile(packagePath, "utf8");
+    packageContents = await (0, import_promises.readFile)(packagePath, "utf8");
   } catch {
     core2.setFailed(
       `Could not find package.json at ${packagePath}. Did you run actions/checkout?`
@@ -3103,7 +3103,7 @@ async function main(workspacePath2, event2, core2, $2) {
   const errors = [];
   for (const line of changedChangesetFiles) {
     try {
-      const content = await readFile(line, "utf8");
+      const content = await (0, import_promises.readFile)(line, "utf8");
       if (!REGEX_CHANGED_COMPONENTS.test(content)) {
         errors.push(`Could not find changed components in ${line}`);
         continue;
@@ -3125,7 +3125,19 @@ async function main(workspacePath2, event2, core2, $2) {
   if (errors.length > 0) {
     core2.setFailed(
       errors.join("\n") + `
-Known ${pkg.name} components: ${primerPackages.join(", ")}`
+
+Known ${pkg.name} components: ${primerPackages.join(", ")}
+
+Example:
+
+---
+"${pkg.name}": patch
+---
+
+Fixed this and that
+
+<!-- Changed components: ${primerPackages[0]} -\u2192
+`
     );
     return;
   }
@@ -3133,7 +3145,7 @@ Known ${pkg.name} components: ${primerPackages.join(", ")}`
 }
 function getPrimerPackages(core2, pkgName, workspacePath2) {
   if (pkgName === "@primer/react") {
-    const componentsPath = join(workspacePath2, "generated/components.json");
+    const componentsPath = (0, import_node_path.join)(workspacePath2, "generated/components.json");
     core2.info(
       `Loading components information for ${pkgName} from ${componentsPath}`
     );
@@ -3141,7 +3153,7 @@ function getPrimerPackages(core2, pkgName, workspacePath2) {
     return Object.values(components).map((component) => component.name);
   }
   if (pkgName === "@primer/view-components") {
-    const componentsPath = join(workspacePath2, "static/info_arch.json");
+    const componentsPath = (0, import_node_path.join)(workspacePath2, "static/info_arch.json");
     core2.info(
       `Loading components information for ${pkgName} from ${componentsPath}`
     );
@@ -3156,7 +3168,7 @@ function getPrimerPackages(core2, pkgName, workspacePath2) {
 
 // node_modules/execa/index.js
 var import_node_buffer2 = require("node:buffer");
-var import_node_path2 = __toESM(require("node:path"), 1);
+var import_node_path3 = __toESM(require("node:path"), 1);
 var import_node_child_process3 = __toESM(require("node:child_process"), 1);
 var import_node_process3 = __toESM(require("node:process"), 1);
 var import_cross_spawn = __toESM(require_cross_spawn(), 1);
@@ -3176,7 +3188,7 @@ function stripFinalNewline(input) {
 
 // node_modules/npm-run-path/index.js
 var import_node_process = __toESM(require("node:process"), 1);
-var import_node_path = __toESM(require("node:path"), 1);
+var import_node_path2 = __toESM(require("node:path"), 1);
 var import_node_url = __toESM(require("node:url"), 1);
 
 // node_modules/npm-run-path/node_modules/path-key/index.js
@@ -3200,15 +3212,15 @@ function npmRunPath(options = {}) {
   } = options;
   let previous;
   const cwdString = cwd instanceof URL ? import_node_url.default.fileURLToPath(cwd) : cwd;
-  let cwdPath = import_node_path.default.resolve(cwdString);
+  let cwdPath = import_node_path2.default.resolve(cwdString);
   const result = [];
   while (previous !== cwdPath) {
-    result.push(import_node_path.default.join(cwdPath, "node_modules/.bin"));
+    result.push(import_node_path2.default.join(cwdPath, "node_modules/.bin"));
     previous = cwdPath;
-    cwdPath = import_node_path.default.resolve(cwdPath, "..");
+    cwdPath = import_node_path2.default.resolve(cwdPath, "..");
   }
-  result.push(import_node_path.default.resolve(cwdString, execPath, ".."));
-  return [...result, path_].join(import_node_path.default.delimiter);
+  result.push(import_node_path2.default.resolve(cwdString, execPath, ".."));
+  return [...result, path_].join(import_node_path2.default.delimiter);
 }
 function npmRunPathEnv({ env = import_node_process.default.env, ...options } = {}) {
   env = { ...env };
@@ -4108,7 +4120,7 @@ var handleArguments = (file, args, options = {}) => {
   };
   options.env = getEnv(options);
   options.stdio = normalizeStdio(options);
-  if (import_node_process3.default.platform === "win32" && import_node_path2.default.basename(file, ".exe") === "cmd") {
+  if (import_node_process3.default.platform === "win32" && import_node_path3.default.basename(file, ".exe") === "cmd") {
     args.unshift("/q");
   }
   return { file, args, options, parsed };
