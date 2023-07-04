@@ -1,7 +1,7 @@
 // @ts-check
 
-const { readFile } = require("node:fs/promises");
-const { join } = require("node:path");
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 const REGEX_CHANGED_COMPONENTS = /<\!--\s*Changed components:(.*)\s*-->\s*$/;
 const SUPPORTED_PRIMER_PACKAGES = ["@primer/react", "@primer/view-components"];
@@ -120,8 +120,20 @@ export async function main(workspacePath, event, core, $) {
   if (errors.length > 0) {
     core.setFailed(
       errors.join("\n") +
-        "\n" +
-        `Known ${pkg.name} components: ${primerPackages.join(", ")}`
+        `
+
+Known ${pkg.name} components: ${primerPackages.join(", ")}
+
+Example:
+
+---
+"${pkg.name}": patch
+---
+
+Fixed this and that
+
+<!-- Changed components: ${primerPackages[0]} -→
+`
     );
 
     return;
