@@ -6,6 +6,7 @@ import { join } from "node:path";
 const REGEX_CHANGED_COMPONENTS = /<\!--\s*Changed components:(.*)\s*-->\s*$/;
 const SUPPORTED_PRIMER_PACKAGES = ["@primer/react", "@primer/view-components"];
 const SKIP_CHANGESETS_LABELS = ["skip changeset", "skip changelog"];
+const SPECIAL_PACKAGE_NONE = "_none_";
 
 /**
  * @param {string} workspacePath
@@ -97,8 +98,15 @@ export async function main(workspacePath, event, core, $) {
       }
 
       // @ts-expect-error - can't be null, we check above
-      const changedComponents = content
+      const changedComponentsString = content
         .match(REGEX_CHANGED_COMPONENTS)[1]
+        .trim();
+
+      if (changedComponentsString === SPECIAL_PACKAGE_NONE) {
+        continue;
+      }
+
+      const changedComponents = changedComponentsString
         .split(",")
         .map((s) => s.trim());
 
