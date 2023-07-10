@@ -3049,6 +3049,7 @@ var import_node_path = require("node:path");
 var REGEX_CHANGED_COMPONENTS = /<\!--\s*Changed components:(.*)\s*-->\s*$/;
 var SUPPORTED_PRIMER_PACKAGES = ["@primer/react", "@primer/view-components"];
 var SKIP_CHANGESETS_LABELS = ["skip changeset", "skip changelog"];
+var SPECIAL_PACKAGE_NONE = "_none_";
 async function main(workspacePath2, event2, core2, $2) {
   const skipChangesetsLabel = event2.pull_request.labels.find(
     (label) => SKIP_CHANGESETS_LABELS.includes(label.name)
@@ -3108,7 +3109,11 @@ async function main(workspacePath2, event2, core2, $2) {
         errors.push(`Could not find changed components in ${line}`);
         continue;
       }
-      const changedComponents = content.match(REGEX_CHANGED_COMPONENTS)[1].split(",").map((s) => s.trim());
+      const changedComponentsString = content.match(REGEX_CHANGED_COMPONENTS)[1].trim();
+      if (changedComponentsString === SPECIAL_PACKAGE_NONE) {
+        continue;
+      }
+      const changedComponents = changedComponentsString.split(",").map((s) => s.trim());
       for (const changedComponent of changedComponents) {
         if (!primerPackages.includes(changedComponent)) {
           errors.push(`Unknown component "${changedComponent}".`);
